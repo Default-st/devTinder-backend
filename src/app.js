@@ -3,16 +3,9 @@ import express from "express";
 const app = express();
 
 // Request Handler
-app.get("/user", (req, res) => {
+app.get("/user/:userID", (req, res) => {
+  console.log(req.params);
   res.send({ firstName: "Satyansh", lastName: "Srivastava" });
-});
-
-app.post("/user", (req, res) => {
-  res.send("Saved data to the database");
-});
-
-app.delete("/user", (req, res) => {
-  res.send("Deleted user data from the database");
 });
 
 app.listen(3000, () => {
