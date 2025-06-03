@@ -1,11 +1,16 @@
 import express from "express";
-
+import { adminAuth } from "./middlewares/auth.js";
 const app = express();
 
 // Request Handler
-app.get("/user/:userID", (req, res) => {
-  console.log(req.params);
-  res.send({ firstName: "Satyansh", lastName: "Srivastava" });
+app.use("/admin", adminAuth);
+
+app.get("/admin/getAllData", (req, res) => {
+  res.send("All Data sent");
+});
+
+app.get("/admin/deleteUserData", (req, res) => {
+  res.send("user Data deleted");
 });
 
 app.listen(3000, () => {
