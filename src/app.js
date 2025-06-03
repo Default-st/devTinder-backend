@@ -2,15 +2,17 @@ import express from "express";
 import { adminAuth } from "./middlewares/auth.js";
 const app = express();
 
-// Request Handler
-app.use("/admin", adminAuth);
-
-app.get("/admin/getAllData", (req, res) => {
+app.get("/getUserData", (req, res) => {
+  // logic of DB call and get user data
+  throw new Error("Random Error");
   res.send("All Data sent");
 });
 
-app.get("/admin/deleteUserData", (req, res) => {
-  res.send("user Data deleted");
+app.use("/", (err, req, res, next) => {
+  if (err) {
+    // Log your error
+    res.status(500).send("Something went wrong");
+  }
 });
 
 app.listen(3000, () => {
