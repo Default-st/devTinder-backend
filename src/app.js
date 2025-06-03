@@ -3,18 +3,16 @@ import express from "express";
 const app = express();
 
 // Request Handler
-app.use("/", (req, res) => {
-  res.send("Hello from the dashboard");
+app.get("/user", (req, res) => {
+  res.send({ firstName: "Satyansh", lastName: "Srivastava" });
 });
 
-// Request Handler
-app.use("/test", (req, res) => {
-  res.send("Test Server");
+app.post("/user", (req, res) => {
+  res.send("Saved data to the database");
 });
 
-// Request Handler
-app.use("/hello", (req, res) => {
-  res.send("Hello From Server");
+app.delete("/user", (req, res) => {
+  res.send("Deleted user data from the database");
 });
 
 app.listen(3000, () => {
