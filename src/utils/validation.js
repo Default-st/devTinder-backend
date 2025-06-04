@@ -18,3 +18,20 @@ export const validateLoginData = (data) => {
     throw new console.error("Email ID or Password is not valid");
   }
 };
+
+export const validateProfileEditData = (data) => {
+  const allowedEditFields = [
+    "firstName",
+    "lastName",
+    "age",
+    "photoUrl",
+    "gender",
+    "about",
+    "skills",
+  ];
+
+  const isEditAllowed = Object.keys(data).every((field) =>
+    allowedEditFields.includes(field)
+  );
+  return isEditAllowed;
+};
