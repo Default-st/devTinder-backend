@@ -1,19 +1,55 @@
 import express from "express";
 import { connectDB } from "./config/database.js";
 import { User } from "./models/user.js";
+import { validateSignUpData, validateLoginData } from "./utils/validation.js";
+import bcrypt from "bcrypt";
+
 const app = express();
 
 app.use(express.json());
 
 app.post("/signup", async (req, res) => {
   // Creating a new instance of the User model
-  const user = new User(req.body);
-
   try {
+    validateSignUpData(req.body);
+
+    const { password } = req.body;
+    const passwordHash = await bcrypt.hash(password, 10);
+    const { firstName, lastName, emailId } = req.body;
+
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password: passwordHash,
+    });
+
     await user.save();
     res.send("User Added Successfully");
   } catch (err) {
-    res.status(400).send("Error saving the user:" + err.message);
+    res.status(400).send("Error signing up the user: " + err.message);
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    validateLoginData(req.body);
+
+    const { password, emailId } = req.body;
+    const userData = await User.findOne({ emailId: emailId });
+
+    if (!userData) {
+      throw new Error("Email ID or Password is incorrect");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, userData.password);
+    if (isPasswordValid) {
+      res.send("Login Successful");
+    } else {
+      throw new Error("Email ID or Password is incorrect");
+    }
+  } catch (error) {
+    res.status(400).send("Error signing up the user: " + error.message);
   }
 });
 
