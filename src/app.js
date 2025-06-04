@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-app.post("/signup", async (req, res, next) => {
+app.post("/signup", async (req, res) => {
   // Creating a new instance of the User model
   const user = new User(req.body);
 
@@ -55,11 +55,13 @@ app.patch("/user", async (req, res) => {
   const data = req.body;
   const id = req.body.userId;
   try {
-    const userData = await User.findByIdAndUpdate(id, data);
+    const userData = await User.findByIdAndUpdate(id, data, {
+      runValidators: true,
+    });
 
     res.send("User Updated Succesfully");
   } catch (err) {
-    res.status(500).send("User not updated");
+    res.status(500).send("User not updated" + err.message);
   }
 });
 
