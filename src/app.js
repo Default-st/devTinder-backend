@@ -1,7 +1,12 @@
 import express from "express";
 import { connectDB } from "./config/database.js";
 import cookieParser from "cookie-parser";
-import { authRouter, profileRouter, requestRouter } from "./routes/index.js";
+import {
+  authRouter,
+  profileRouter,
+  requestRouter,
+  userRouter,
+} from "./routes/index.js";
 
 const app = express();
 
@@ -11,6 +16,7 @@ app.use(cookieParser());
 app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
+app.use("/", userRouter);
 
 connectDB()
   .then(() => {

@@ -22,5 +22,5 @@ POST /request/review/rejected/:requestId
 # userRouter
 
 GET /user/connections
-GET /user/requests
-GET /users/feed
+GET /user/requests/received
+GET /user/feed
